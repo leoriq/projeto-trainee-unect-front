@@ -45,12 +45,16 @@ h3 {
 }
 
 .actions {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: space-between;
     width: 80px;
     height: 48px;
     vertical-align: middle;
+}
+
+article:hover .actions {
+    display: flex;
 }
 
 .done-icon {
@@ -70,6 +74,15 @@ h3 {
     display: flex;
     align-items: center;
     margin-right: 13px;
-    justify-content: space-between;
+    margin-left: 3px;
     color: #FF3E3E;
+}
+
+button {
+    display: flex;
+    min-height: 32px;
+    align-items: center;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
 }

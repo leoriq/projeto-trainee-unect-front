@@ -10,7 +10,6 @@ export default function AddTodo() {
         
         <input type="text" placeholder="Add uma nova tarefa" />
         <AddIcon 
-          fontSize="madium"
           style={{
             cursor: 'pointer'
           }}
