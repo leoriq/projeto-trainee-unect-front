@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import api from '../../services/api';
+import io from "socket.io-client";
 import './style.css';
 
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
@@ -13,12 +14,39 @@ class TodoFeed extends Component {
     };
 
     async componentDidMount() {
+        this.registerToSocket();
+
         const response = await api.get('todos');
         const notDone = response.data.filter((todo) => {
             return todo.done === false;
-          })
+        })
 
         this.setState({ feed: notDone });
+    }
+
+    registerToSocket = () => {
+        const socket = io('http://localhost:3333')
+
+        socket.on('todoItem', newTodo => {
+            this.setState({ feed: [...this.state.feed, newTodo] });
+        })
+
+        socket.on('done', doneTodo => {
+            const done = this.state.feed.filter((todo) => {
+                return todo !== doneTodo;
+            })
+            this.setState({
+                feed: done
+            });
+        })
+
+        socket.on('delete', deleteTodo => {
+            this.setState({
+                feed: this.state.feed.filter((todo) => {
+                    return todo !== deleteTodo;
+                })
+            });
+        })
     }
 
     handleDone = id => {

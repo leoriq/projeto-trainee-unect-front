@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import api from '../../services/api';
+import io from "socket.io-client";
 import './style.css';
 
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
@@ -18,6 +19,22 @@ class DoneFeed extends Component {
           })
 
         this.setState({ feed: notDone });
+    }
+
+    registerToSocket = () => {
+        const socket = io('http://localhost:3333')
+
+        socket.on('done', doneTodo => {
+            this.setState({ feed: [...this.state.feed, doneTodo] });
+        })
+
+        socket.on('delete', deleteTodo => {
+            this.setState({
+                feed: this.state.feed.filter((todo) => {
+                    return todo !== deleteTodo;
+                })
+            });
+        })
     }
 
     handleDone = id => {
