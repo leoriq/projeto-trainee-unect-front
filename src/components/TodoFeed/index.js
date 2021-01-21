@@ -4,6 +4,8 @@ import './style.css';
 
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
+import { Icon } from '@iconify/react';
+import beachumbrellaIcon from '@iconify-icons/fxemoji/beachumbrella';
 
 class TodoFeed extends Component {
     state = {
@@ -44,6 +46,10 @@ class TodoFeed extends Component {
                         </div>
                     </article>
                 ))}
+                <div className="nada-div">
+                    <Icon icon={beachumbrellaIcon} width="50" height="50" className="nada-icon" />
+                    <h3 className="nada-text">Nada por aqui!</h3>
+                </div>
             </section>
         )
     }

@@ -3,6 +3,8 @@ import api from '../../services/api';
 import './style.css';
 
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
+import { Icon } from '@iconify/react';
+import beachumbrellaIcon from '@iconify-icons/fxemoji/beachumbrella';
 
 class DoneFeed extends Component {
     state = {
@@ -32,7 +34,7 @@ class DoneFeed extends Component {
                 <h2>DONE</h2>
                 {this.state.feed.map(todo => (
                     <article key={todo._id}>
-                        <h3>{todo.todo}</h3>
+                        <h3 className="done-text">{todo.todo}</h3>
                         <div className="actions">
                             <button type="button" onClick={() => this.handleDelete(todo._id)}>
                                 <RemoveRoundedIcon className="removedone-icon" />
@@ -40,6 +42,11 @@ class DoneFeed extends Component {
                         </div>
                     </article>
                 ))}
+                <div className="nada-div">
+                    <Icon icon={beachumbrellaIcon} width="50" height="50" className="nada-icon" />
+                    <h3 className="nada-text">Nada por aqui!</h3>
+                </div>
+                <div style={{marginBottom: 100}}></div>
             </section>
         )
     }

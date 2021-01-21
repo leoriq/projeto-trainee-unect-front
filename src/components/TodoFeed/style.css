@@ -15,23 +15,49 @@ h2 {
     color: #5C5A6C;
 }
 
-article {
+article, .nada-div {
     display: flex;
     align-items: center;
     margin: auto;
     margin-top: 6px;
     position: relative;
-    width: 408px;
-    height: 50px;
     background: #FDFDFD;
     border: 1px solid #DFDFDF;
     box-sizing: border-box;
+}
+
+.nada-div {
+    width: 232px;
+    height: 103px;
+    border-radius: 6px;
+}
+
+.nada-icon {
+    position: relative;
+    margin-left: 26px;
+}
+
+.nada-text {
+    position: relative;
+    margin-left: 20px;
+    color: #39374E;
+    opacity: 0.7;
+}
+
+article {
+    width: 408px;
+    min-height: 50px;
     border-radius: 4px;
 }
 
+article ~ .nada-div {
+    display: none;
+}
+
 h3 {
-    margin: 0 auto;
+    margin: 10px auto;
     display: flex;
+    max-width: 309px;
     align-items: center;
     margin-left: 16px;
     padding: 0px;
@@ -42,6 +68,7 @@ h3 {
     line-height: 140%;
     /* or 22px */
     color: #111111;
+    word-break: break-all;
 }
 
 .actions {

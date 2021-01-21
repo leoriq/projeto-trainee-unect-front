@@ -8,3 +8,8 @@
     background: #FFE6E6;
     border-radius: 50%;
 }
+
+.done-text {
+    text-decoration-line: line-through;
+    opacity: 0.5;
+}
