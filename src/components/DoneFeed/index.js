@@ -13,27 +13,28 @@ class DoneFeed extends Component {
     };
 
     async componentDidMount() {
-        const response = await api.get('todos');
-        const notDone = response.data.filter((todo) => {
-            return todo.done === true;
-          })
+        this.registerToSocket();
 
-        this.setState({ feed: notDone });
+        const response = await api.get('todos');
+        const done = response.data.filter((todo) => {
+            return todo.done === true;
+        })
+        this.setState({ feed: done });
     }
 
     registerToSocket = () => {
         const socket = io('http://localhost:3333')
 
         socket.on('done', doneTodo => {
-            this.setState({ feed: [...this.state.feed, doneTodo] });
+            this.setState({ feed: [doneTodo, ...this.state.feed] });
         })
 
         socket.on('delete', deleteTodo => {
             this.setState({
                 feed: this.state.feed.filter((todo) => {
-                    return todo !== deleteTodo;
+                    return todo._id !== deleteTodo._id;
                 })
-            });
+            })
         })
     }
 
@@ -63,7 +64,7 @@ class DoneFeed extends Component {
                     <Icon icon={beachumbrellaIcon} width="50" height="50" className="nada-icon" />
                     <h3 className="nada-text">Nada por aqui!</h3>
                 </div>
-                <div style={{marginBottom: 100}}></div>
+                <div style={{ marginBottom: 100 }}></div>
             </section>
         )
     }

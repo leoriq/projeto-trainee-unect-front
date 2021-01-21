@@ -20,7 +20,6 @@ class TodoFeed extends Component {
         const notDone = response.data.filter((todo) => {
             return todo.done === false;
         })
-
         this.setState({ feed: notDone });
     }
 
@@ -32,20 +31,20 @@ class TodoFeed extends Component {
         })
 
         socket.on('done', doneTodo => {
-            const done = this.state.feed.filter((todo) => {
-                return todo !== doneTodo;
-            })
+            console.log(doneTodo);
             this.setState({
-                feed: done
-            });
+                feed: this.state.feed.filter((todo) => {
+                    return todo._id !== doneTodo._id;
+                })
+            })
         })
 
         socket.on('delete', deleteTodo => {
             this.setState({
                 feed: this.state.feed.filter((todo) => {
-                    return todo !== deleteTodo;
+                    return todo._id !== deleteTodo._id;
                 })
-            });
+            })
         })
     }
 
@@ -59,9 +58,9 @@ class TodoFeed extends Component {
 
     render() {
         return (
-            <section id="todo-list">
+            <section id="todo-list" >
                 <h2>TODO</h2>
-                {this.state.feed.map(todo => (
+                { this.state.feed.map(todo => (
                     <article key={todo._id}>
                         <h3>{todo.todo}</h3>
                         <div className="actions">
@@ -73,12 +72,13 @@ class TodoFeed extends Component {
                             </button>
                         </div>
                     </article>
-                ))}
-                <div className="nada-div">
+                ))
+                }
+                < div className="nada-div" >
                     <Icon icon={beachumbrellaIcon} width="50" height="50" className="nada-icon" />
                     <h3 className="nada-text">Nada por aqui!</h3>
-                </div>
-            </section>
+                </div >
+            </section >
         )
     }
 }
