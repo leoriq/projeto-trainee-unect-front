@@ -31,8 +31,8 @@ class TodoFeed extends Component {
                     <article key={todo._id}>
                         <h3>{todo.todo}</h3>
                         <div className="actions">
-                            <DoneRoundedIcon />
-                            <RemoveRoundedIcon />
+                            <DoneRoundedIcon className="done-icon" />
+                            <RemoveRoundedIcon className="remove-icon" />
                         </div>
                     </article>
 
