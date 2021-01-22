@@ -27,7 +27,7 @@ class TodoFeed extends Component {
         const socket = io('http://localhost:3333')
 
         socket.on('todoItem', newTodo => {
-            this.setState({ feed: [...this.state.feed, newTodo] });
+            this.setState({ feed: [newTodo, ...this.state.feed] });
         })
 
         socket.on('done', doneTodo => {
