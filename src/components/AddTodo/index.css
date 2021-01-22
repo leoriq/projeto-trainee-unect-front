@@ -1,30 +1,47 @@
 .addTodo {
-  background-color: #F6F6F6;
-  padding: 5px 15px;
-
+  margin-top: 24px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .addTodo-Input {
+  display: flex;
   background-color: rgba(170, 169, 183, 0.2);
-  width: 13vw;
-  height: 40px;
-  border-radius: 20px;
-  padding: 0 20px;
-
+  width: 328px;
+  min-height: 49px;
+  border-radius: 25px;
+  padding: 0;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 
 .addTodo-Input input {
+  padding-left: 20px;
+  max-width: 272px;
   flex: 1;
   border: 0;
   outline: 0;
   background-color: transparent;
-
-  font-size: 14px;
-
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  color: #111111;
   text-align: left;
+}
+
+.addTodo-Input button {
+  position: relative;
+  right: 20px;
+  padding: 0;
+  right: 16px;
+}
+
+.add-icon {
+  padding: 0;
+  color: #00B0FF;
+  font-size: 21px;
 }

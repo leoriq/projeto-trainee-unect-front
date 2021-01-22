@@ -1,4 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 * {
     box-sizing: border-box;
 }
@@ -16,7 +15,6 @@ h2 {
 }
 
 article, .nada-div {
-    display: flex;
     align-items: center;
     margin: auto;
     margin-top: 6px;
@@ -27,6 +25,7 @@ article, .nada-div {
 }
 
 .nada-div {
+    display: flex;
     width: 232px;
     height: 103px;
     border-radius: 6px;
@@ -45,6 +44,7 @@ article, .nada-div {
 }
 
 article {
+    display: flex;
     width: 408px;
     min-height: 50px;
     border-radius: 4px;

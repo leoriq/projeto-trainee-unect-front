@@ -72,8 +72,7 @@ class TodoFeed extends Component {
                             </button>
                         </div>
                     </article>
-                ))
-                }
+                ))}
                 < div className="nada-div" >
                     <Icon icon={beachumbrellaIcon} width="50" height="50" className="nada-icon" />
                     <h3 className="nada-text">Nada por aqui!</h3>
