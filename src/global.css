@@ -13,7 +13,7 @@ body {
 }
 
 h2 {
-  padding: 50px 0 23px 0;
+  padding-bottom: 23px;
   font-family: Roboto;
   font-style: normal;
   font-weight: 500;
@@ -123,10 +123,6 @@ button {
   color: #FF3E3E;
 }
 
-.hidden {
-  display: none;
-}
-
 .removedone-icon {
   position: absolute;
   min-height: 32px;
@@ -141,4 +137,8 @@ button {
 .done-text {
   text-decoration-line: line-through;
   opacity: 0.5;
+}
+
+.padding-botton {
+  margin-bottom: 50px;
 }

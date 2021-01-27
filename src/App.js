@@ -1,20 +1,66 @@
 import React, { useState, useEffect } from 'react';
 
-import Header from './components/Header';
-import AddTodo from './components/AddTodo';
+// Drag an drop
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
+// Title and input
+import Header from './components/Header';
+import AddTodo from './components/AddTodo';
+
+// Connections to server
 import api from './services/api';
 import io from "socket.io-client";
 
+// Icons
 import DoneRoundedIcon from '@material-ui/icons/DoneRounded';
 import RemoveRoundedIcon from '@material-ui/icons/RemoveRounded';
 import { Icon } from '@iconify/react';
 import beachumbrellaIcon from '@iconify-icons/fxemoji/beachumbrella';
 
-const MovableItem = ({ done, _id, todo, setItems }) => {
+// Handles live updates
+const registerToSocket = (setItems) => {
+  const socket = io('http://localhost:3333')
 
+  // Handles new todo
+  socket.on('todoItem', newTodo => {
+    setItems((prevState) => {
+      return [newTodo, ...prevState]
+    })
+  })
+
+  // Handles what to do when 'done' is indicated by the server
+  socket.on('done', currentItem => {
+    setItems((prevState) => {
+      prevState.forEach(function (item, i) {
+        if (item._id === currentItem._id) {
+          prevState.splice(i, 1);
+          prevState.unshift(item);
+        }
+      })
+
+      return prevState.map(e => {
+        return {
+          ...e,
+          done: e._id === currentItem._id ? true : e.done,
+        }
+      })
+    });
+  })
+
+  // Handles what to do when 'delete' is indicated by the server
+  socket.on('delete', deleteTodo => {
+    setItems((prevState) => {
+      return prevState.filter(e => {
+        return e._id !== deleteTodo._id;
+      })
+    })
+  })
+}
+
+// Todo items
+const MovableItem = ({ done, _id, todo, setItems }) => {
+  // Switch the done state to true. Duplicated for faster response than waiting for server
   const changeItemColumn = (currentItem, columnName) => {
     setItems((prevState) => {
       prevState.forEach(function (item, i) {
@@ -33,14 +79,7 @@ const MovableItem = ({ done, _id, todo, setItems }) => {
     });
   }
 
-  const deleteItem = (currentItem) => {
-    setItems((prevState) => {
-      return prevState.filter(e => {
-        return e._id !== currentItem._id;
-      })
-    })
-  }
-
+  // Dragging behaviour
   const [{ isDragging }, drag] = useDrag({
     item: { _id, type: 'Our first type' },
     end: (item, monitor) => {
@@ -54,17 +93,19 @@ const MovableItem = ({ done, _id, todo, setItems }) => {
     }),
   });
 
+  // Handles what to do when 'done' is indicated by the user
   const handleDone = (currentItem) => {
     changeItemColumn(currentItem, true)
     api.post(`todos/${currentItem._id}`);
   }
-
+  // Handles what to do when 'delete' is indicated by the user
   const handleDelete = (currentItem) => {
     api.delete(`todos/${currentItem._id}`);
   }
 
   const opacity = isDragging ? 0.4 : 1;
 
+  // Different boxes for done and not done items
   if (done) {
     return (
       <div className='container'>
@@ -97,6 +138,7 @@ const MovableItem = ({ done, _id, todo, setItems }) => {
   }
 }
 
+// Handles drop field behaviour and contents
 const Column = ({ children, title }) => {
   const [, drop] = useDrop({
     accept: 'Our first type',
@@ -104,7 +146,7 @@ const Column = ({ children, title }) => {
   });
 
   return (
-    <div ref={drop}>
+    <div className="padding-botton" ref={drop}>
       <h2>{title}</h2>
       {children}
       <div className="nada-div" >
@@ -115,32 +157,12 @@ const Column = ({ children, title }) => {
   )
 }
 
-const registerToSocket = () => {
-  const socket = io('http://localhost:3333')
-
-  socket.on('todoItem', newTodo => {
-      this.setState({ feed: [newTodo, ...this.state.feed] });
-  })
-
-  socket.on('done', doneTodo => {
-      console.log(doneTodo);
-      this.setState({
-          feed: this.state.feed.filter((todo) => {
-              return todo._id !== doneTodo._id;
-          })
-      })
-  })
-
-  socket.on('delete', deleteTodo => {
-    MovableItem.deleteItem({ _id: deleteTodo._id, type: 'Our first type' })
-  })
-}
-
 function App() {
   const [items, setItems] = useState([]);
 
+  // Starts the server connection
   useEffect(() => {
-    registerToSocket();
+    registerToSocket(setItems);
     let mounted = true;
     api.get('todos').then(feed => {
       if (mounted) {
@@ -151,6 +173,7 @@ function App() {
     return () => mounted = false;
   }, []);
 
+  // Decides if an items goes to TODO or DONE field
   const returnItemsForColumn = (columnName) => {
     return items
       .filter((item) => item.done === columnName)
