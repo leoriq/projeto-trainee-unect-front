@@ -20,7 +20,14 @@ class AddTodo extends Component {
 
     await api.post('todos', data);
     document.getElementById("input").value = "";
+    this.state.todo = '';
   }
+
+  handleEnter = e => {
+    if (e.keyCode === 13) {
+      this.handleSubmit();
+    }
+  };
 
 
   render() {
@@ -34,6 +41,7 @@ class AddTodo extends Component {
             placeholder="Add uma nova tarefa"
             onChange={this.handleChange}
             value={this.state.todo}
+            onKeyDown={this.handleEnter}
           />
           <button type="button" onClick={this.handleSubmit} >
             <PlusOutlined width="18px" height="18px" className="add-icon" />
