@@ -1,5 +1,6 @@
 .addTodo {
   margin-top: 24px;
+  margin-bottom: 50px;
   display: flex;
   justify-content: center;
   align-items: center;
